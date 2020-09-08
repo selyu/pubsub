@@ -11,6 +11,7 @@
         <module>core</module>
         <module>single-server</module>
         <module>jedis</module>
+        <module>rabbitmq</module>
     </modules>
     <packaging>pom</packaging>
 
