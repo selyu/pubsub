@@ -2,13 +2,17 @@ package org.selyu.pubsub;
 
 import org.junit.Test;
 
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+
 public class SingleServerPubSubTest {
     @Test
     public void test() throws InterruptedException {
         IPubSub pubSub = new SingleServerPubSub();
-        pubSub.subscribe(HelloMessage.class, message -> System.out.println("Hello, " + message.getMessage()));
-        pubSub.publish(new HelloMessage("World!")).join();
+        CountDownLatch latch = new CountDownLatch(1);
+        pubSub.subscribe(String.class, __ -> latch.countDown());
+        pubSub.publish("Hello World").join();
 
-        Thread.sleep(100);
+        latch.await(1, TimeUnit.SECONDS);
     }
 }

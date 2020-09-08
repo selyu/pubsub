@@ -2,7 +2,6 @@ package org.selyu.pubsub;
 
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
-import org.selyu.pubsub.model.IMessage;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -18,7 +17,7 @@ public final class RabbitMQPubSub extends PubSub {
 
         channel.queueDeclare("selyu:pubsub", false, false, false, null);
         channel.basicConsume("selyu:pubsub", true, (__, delivery) -> {
-            IMessage message = deserialize(new String(delivery.getBody(), StandardCharsets.UTF_8));
+            Object message = deserialize(new String(delivery.getBody(), StandardCharsets.UTF_8));
             if (message != null) {
                 postToSubscribers(message);
             }

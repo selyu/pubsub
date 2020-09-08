@@ -1,6 +1,5 @@
 package org.selyu.pubsub;
 
-import org.selyu.pubsub.model.IMessage;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.util.Pool;
 
@@ -29,7 +28,7 @@ public final class JedisPubSub extends PubSub {
                 jedis.subscribe(new redis.clients.jedis.JedisPubSub() {
                     @Override
                     public void onMessage(String channel, String message) {
-                        IMessage message1 = deserialize(message);
+                        Object message1 = deserialize(message);
                         if (message1 != null) {
                             postToSubscribers(message1);
                         }
